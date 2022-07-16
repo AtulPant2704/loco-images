@@ -1,0 +1,1 @@
+export { getPhotosHandler } from "./getPhotosHandler";
