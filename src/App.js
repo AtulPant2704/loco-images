@@ -1,9 +1,19 @@
-import './App.css';
+import { useEffect, useState } from "react";
+import { getPhotosHandler } from "utils";
+import "./App.css";
 
 function App() {
+  const [photos, setPhotos] = useState([]);
+
+  useEffect(() => {
+    getPhotosHandler(setPhotos, 10);
+  }, []);
+
   return (
     <div className="App">
-        <h2>Hello</h2>
+      {photos.map((photo) => (
+        <img src={photo.urls.small} alt="hello" />
+      ))}
     </div>
   );
 }
