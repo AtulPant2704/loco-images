@@ -1,11 +1,15 @@
 const { getPhotosService } = require("services");
 
-const getPhotosHandler = async (setPhotos, setLoader, count) => {
+const getUniquePhotos = (photos, data) => {
+  return data.filter((item) => photos.every((photo) => photo.id !== item.id));
+};
+
+const getPhotosHandler = async (photos, setPhotos, setLoader) => {
   try {
     setLoader(true);
-    const response = await getPhotosService(count);
+    const response = await getPhotosService();
     if (response.status === 200) {
-      setPhotos(response.data);
+      setPhotos((prev) => [...prev, ...getUniquePhotos(photos, response.data)]);
     } else {
       throw new Error();
     }
