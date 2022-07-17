@@ -33,7 +33,7 @@ const PhotoModal = ({
     (photo) => photo.id === activePhoto.id
   );
 
-  const activeVideoHandler = (e, type) => {
+  const activePhotoHandler = (e, type) => {
     e.stopPropagation();
     getActivePhoto(photos, setActivePhoto, activePhotoIndex, type);
   };
@@ -89,7 +89,7 @@ const PhotoModal = ({
             color: "white",
           }}
           disabled={activePhotoIndex === 0}
-          onClick={(e) => activeVideoHandler(e, "previous")}
+          onClick={(e) => activePhotoHandler(e, "previous")}
         />
         <IconButton
           icon={<AiOutlineRight />}
@@ -99,14 +99,14 @@ const PhotoModal = ({
           position="fixed"
           h="200px"
           top="35%"
-          right="0"
+          right={{ base: "0", sm: "10px" }}
           fontSize="3xl"
           zIndex="var(--chakra-zIndices-modal)"
           _hover={{
             color: "white",
           }}
           disabled={activePhotoIndex === photos.length - 1}
-          onClick={(e) => activeVideoHandler(e, "next")}
+          onClick={(e) => activePhotoHandler(e, "next")}
         />
       </Modal>
     </>
