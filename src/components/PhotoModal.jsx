@@ -29,9 +29,13 @@ const PhotoModal = ({
   const downloads = numeral(Number(activePhoto.downloads)).format("0,0");
   const likes = numeral(Number(activePhoto.likes)).format("0,0");
 
+  const activePhotoIndex = photos.findIndex(
+    (photo) => photo.id === activePhoto.id
+  );
+
   const activeVideoHandler = (e, type) => {
     e.stopPropagation();
-    getActivePhoto(photos, setActivePhoto, activePhoto.id, type);
+    getActivePhoto(photos, setActivePhoto, activePhotoIndex, type);
   };
 
   return (
@@ -50,7 +54,7 @@ const PhotoModal = ({
             </Heading>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody w="60%" margin="auto">
+          <ModalBody w={{ md: "80%", lg: "60%" }} margin="auto">
             <Image src={activePhoto.urls.regular} alt="unsplash" />
           </ModalBody>
           <ModalFooter justifyContent="flex-start">
@@ -77,13 +81,14 @@ const PhotoModal = ({
           cursor="pointer"
           position="fixed"
           h="200px"
-          top="32%"
+          top="35%"
           left="0"
           fontSize="3xl"
           zIndex="var(--chakra-zIndices-modal)"
           _hover={{
             color: "white",
           }}
+          disabled={activePhotoIndex === 0}
           onClick={(e) => activeVideoHandler(e, "previous")}
         />
         <IconButton
@@ -93,13 +98,14 @@ const PhotoModal = ({
           cursor="pointer"
           position="fixed"
           h="200px"
-          top="32%"
-          right="15px"
+          top="35%"
+          right="0"
           fontSize="3xl"
           zIndex="var(--chakra-zIndices-modal)"
           _hover={{
             color: "white",
           }}
+          disabled={activePhotoIndex === photos.length - 1}
           onClick={(e) => activeVideoHandler(e, "next")}
         />
       </Modal>

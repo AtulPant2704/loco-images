@@ -1,5 +1,4 @@
-const getActivePhoto = (photos, setActivePhoto, id, type) => {
-  const activePhotoIndex = photos.findIndex((photo) => photo.id === id);
+const getActivePhoto = (photos, setActivePhoto, activePhotoIndex, type) => {
   if (type === "previous") {
     setActivePhoto(photos[activePhotoIndex - 1]);
   } else {
