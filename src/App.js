@@ -17,16 +17,13 @@ function App() {
   const [count, setCount] = useState(10);
   const [activePhoto, setActivePhoto] = useState(null);
   const loaderRef = useRef(null);
-  const statusRef = useRef(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const observerRef = useRef(
     new IntersectionObserver((entries) => {
       const target = entries[0];
-      if (target.isIntersecting && !statusRef.current) {
-        console.log("intersect");
+      if (target.isIntersecting) {
         setCount((prev) => prev + 10);
-        statusRef.current = true;
       }
     })
   );
@@ -36,12 +33,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      await getPhotosHandler(setPhotos, setLoader, count);
-      setTimeout(() => {
-        statusRef.current = false;
-      }, 500);
-    })();
+    getPhotosHandler(photos, setPhotos, setLoader);
   }, [count]);
 
   return (
@@ -66,14 +58,15 @@ function App() {
         gridColumnGap="10px"
         justifyItems="center"
       >
-        {photos.map((photo) => (
-          <PhotoCard
-            key={photo.id}
-            photo={photo}
-            onOpen={onOpen}
-            setActivePhoto={setActivePhoto}
-          />
-        ))}
+        {photos.length > 0 &&
+          photos.map((photo) => (
+            <PhotoCard
+              key={photo.id}
+              photo={photo}
+              onOpen={onOpen}
+              setActivePhoto={setActivePhoto}
+            />
+          ))}
       </Grid>
       {loader ? (
         <Flex justifyContent="center">
@@ -87,7 +80,12 @@ function App() {
           />
         </Flex>
       ) : null}
-      <Box ref={loaderRef} w="100%" h="10px"></Box>
+      <Box
+        ref={loaderRef}
+        w="100%"
+        h="10px"
+        marginTop={photos.length === 0 ? "90vh" : "0px"}
+      ></Box>
     </div>
   );
 }
